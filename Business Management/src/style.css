@@ -1,0 +1,35 @@
+.border-content{
+    border: 1px solid #e4e4e4;
+    border-top: none;
+}
+
+.table-sticky {
+    overflow-y: auto;
+    max-height: 300px;
+}
+
+.table-sticky-small{
+    overflow-y: scroll;
+    max-height: 150px;
+}
+
+.table-sticky thead th, .table-sticky-small thead th {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.tab-content{
+    background-color: rgb(245, 245, 245);
+}
+
+.phone-nav li{
+    border: 1px solid white;
+    background-color: white;
+    border-radius: 50px;
+    margin-left: 1%;
+}
+
+.phone-nav li:hover{
+    border-color: #007bff;
+}
