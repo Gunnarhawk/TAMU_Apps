@@ -8,6 +8,12 @@ tr:hover{
     cursor: pointer;
 }
 
+.hoverable-th:hover{
+    text-decoration: underline;
+    text-decoration-color: rgb(0, 123, 255);
+    color: rgb(0, 123, 255);
+}
+
 .border-content{
     border: 1px solid #e4e4e4;
     border-top: none;
