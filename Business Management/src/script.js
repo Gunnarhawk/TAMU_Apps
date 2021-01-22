@@ -2,32 +2,59 @@ var phoneDBElements = 0;
 var currentPage = 1;
 
 const UpdateCurrentPage = (page) =>{
+    // Set the current page for other functions
     currentPage = page;
-    console.log(currentPage);
 }
 
 function TableElement_OnClick(){
+    // Return if window
     if(this == window){
         return;
     }
     switch (currentPage){
         case 1:
             // Phones
+            const phoneTable = document.getElementsByClassName('phone-table-body')[0];
+
+            if(this.classList.contains('tr-active')){
+                // Second Click
+                this.classList.remove('tr-active');
+                // Dissable Edit Mode
+                let editModeSelection = document.getElementById('collapse4');
+                editModeSelection.style.display = "none";
+
+                // Update Background Color
+                let selectedBackgroundColor = "rgb(108, 117, 125)";
+                this.style.backgroundColor = "transparent";
+                this.addEventListener('mouseover', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor ="#e4e4e4";
+                    }
+                });
+                this.addEventListener('mouseout', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor = "transparent";
+                    }
+                });
+                return;
+            } else {
+                // First Click
+                // Add active class
+                for(let c = 0; c < phoneTable.childElementCount; c++){
+                    if(phoneTable.children[c].classList.contains('tr-active')){
+                        phoneTable.children[c].classList.remove('tr-active');
+                    }
+                }
+                this.classList.add('tr-active');
+            }
 
             // Activate Edit Mode
-            /*
-            this.dataToggle = "collapse";
-            this.role = "button";
             let editModeSelection = document.getElementById('collapse4');
-            let deleteModeSelectin = document.getElementById('collapse2');
-            editModeSelection.style.position = "relative";
             editModeSelection.style.display = "flex";
-            editModeSelection.style.flexDirection = "column";
-            */
+            
 
             // Update Background Color
             let selectedBackgroundColor = "rgb(108, 117, 125)";
-            const phoneTable = document.getElementsByClassName('phone-table-body')[0];
             for(j = 0; j < phoneTable.childElementCount; j++){
                 if(phoneTable.children[j].style.backgroundColor == selectedBackgroundColor){
                     phoneTable.children[j].style.backgroundColor = "transparent";
@@ -48,6 +75,7 @@ function TableElement_OnClick(){
             // Update Forms
             let innerTextArray = this.innerText.split('\t');
             for(let i = 1; i <= 12; i++){
+                // 8 is the index for the radio
                 if(i == 8){
                     var isYes = (innerTextArray[8] == "Yes") ? true : false;
                     var yes = document.getElementsByClassName('radio-yes')[0];
@@ -60,6 +88,7 @@ function TableElement_OnClick(){
                         yes.checked = false;
                     }
                 } else {
+                    // Every other index, put content in text box
                     let formInput = `phoneInput${i}`;
                     let inputID = document.getElementById(formInput);
                     inputID.value = innerTextArray[i-1].toString();
@@ -77,12 +106,13 @@ function TableElement_OnClick(){
             // Maintenance
             break;
         default:
-            console.log("Error | Table Element");
+            console.log("Error | Table Element {Current Page Not Found}");
             break;
     }
 }
 
 const FillTable = () =>{
+    // This is a temp function, will be removed when tables can be added via DB query
     let numElements = 100;
     phoneDBElements = numElements;
     for(let j = 0; j < numElements; j++){
@@ -186,12 +216,14 @@ const FillTable = () =>{
 }
 
 const TableSearch = (db) =>{
+    // init values
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById(`myInput${db}`);
     filter = input.value.toUpperCase();
     table = document.getElementById(`searchable${db}`);
     tr = table.getElementsByTagName("tr");
 
+    // check table row for value of text in search bar
     for (i = 0; i < tr.length; i++) {
         td = tr[i].getElementsByTagName("td")[0];
         if (td) {
@@ -208,6 +240,7 @@ const TableSearch = (db) =>{
 var deleteMode = false;
 
 const DeleteButton = (db) =>{
+    // See which table is active
     var _table;
     switch(db){
         case 1:
@@ -224,17 +257,20 @@ const DeleteButton = (db) =>{
             break;
     }
 
+    // Toggle 'delete mode'
     if(deleteMode == true){
         deleteMode = false;
     } else {
         deleteMode = true;
     }
 
+    // If an elemtn in the table is clicked, it will ask the user if they wish to delete it. If yes, delete element
     for(let i = 0; i < phoneDBElements; i++){
         _table.children[i].addEventListener('click', function(){
             if(deleteMode == true){
                 var result = confirm("Do you really want to delete this element? It will be gone forever.");
                 if(result == true){
+                    // Delete Element
                     _table.children[i].style.display = "none";
                 }
             }
