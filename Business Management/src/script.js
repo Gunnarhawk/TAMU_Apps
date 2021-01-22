@@ -35,6 +35,22 @@ function TableElement_OnClick(){
                             this.style.backgroundColor = "transparent";
                         }
                     });
+
+                    // Remove form data / restore to defaults
+                    for(let i = 1; i <= 12; i++){
+                        // 8 is the index for the radio
+                        if(i == 8){
+                            var yes = document.getElementsByClassName('radio-yes')[0];
+                            var no = document.getElementsByClassName('radio-no')[0];
+                            yes.checked = false;
+                            no.checked = true;
+                        } else {
+                            // Every other index, put content in text box
+                            let formInput = `phoneInput${i}`;
+                            let inputID = document.getElementById(formInput);
+                            inputID.value = "";
+                        }
+                    }
                     return;
                 } else {
                     // First Click
@@ -213,6 +229,71 @@ const FillTable = () =>{
     }
 
     document.getElementsByClassName('maintenance-directory-name')[0].innerHTML = `Maintenance Database (${numElements} results)`;
+}
+
+const SaveEditedFormData = (table) =>{
+    var currentTable;
+    var selectedRow;
+    let inputType;
+
+    // Select current table
+    switch (table){
+        case "phone":
+            currentTable = document.getElementsByClassName('phone-table-body')[0];
+            inputType = "phoneInput";
+            break;
+        case "key":
+            break;
+        case "account":
+            break;
+        case "maintenance":
+            break;
+        default:
+            return;
+    }
+
+    // Get selected table row
+    for(let i = 0; i < currentTable.childElementCount; i++){
+        if(currentTable.children[i].classList.contains('tr-active')){
+            selectedRow = currentTable.children[i];
+        }
+    }
+
+    let indexer = 1;
+    let availableElements = true;
+    let inputValue;
+    let formInputValueArray = new Array();
+    while(availableElements){
+        try {
+            let formInput = document.getElementById((inputType+indexer).toString());
+            if(formInput.classList.contains('form-check-input')){
+                // Radio
+                let yes = document.getElementsByClassName('radio-yes')[0];
+                let no = document.getElementsByClassName('radio-no')[0];
+                if(yes.checked){
+                    inputValue = "Yes";
+                } else if(no.checked){
+                    inputValue = "No";
+                } else {
+                    inputValue = "NA";
+                    console.log("Error | Edit Form Data {yes/no does not exist}");
+                }
+            } else {
+                inputValue = formInput.value;
+            }
+            formInputValueArray.push(inputValue);
+
+            indexer++;
+        } catch (error) {
+            availableElements = false;
+            break;
+        }
+    }
+
+    // Loop through selected row and replace elements
+    for(let c = 0; c < selectedRow.childElementCount; c++){
+        selectedRow.children[c].innerText = formInputValueArray[c];
+    }
 }
 
 const SortTable = (table, sort_index, currentElement) =>{
