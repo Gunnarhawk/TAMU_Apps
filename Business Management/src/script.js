@@ -1,10 +1,29 @@
 var phoneDBElements = 0;
 var currentPage = 1;
 var deleteModeActive = false;
+var editModeActive = false;
 
 const UpdateCurrentPage = (page) =>{
     // Set the current page for other functions
     currentPage = page;
+}
+
+const ToggleEditMode = (wishstate) =>{
+    let editModeSelection = document.getElementById('collapse4');
+    switch (wishstate){
+        case "enable":
+            // activate edit mode
+            editModeSelection.style.display = "flex";
+            editModeActive = true;
+            break;
+        case "dissable":
+            // dissable edit mode
+            editModeSelection.style.display = "none";
+            editModeActive = false;
+            break;
+        default:
+            return;
+    }
 }
 
 function TableElement_OnClick(){
@@ -19,8 +38,7 @@ function TableElement_OnClick(){
                     // Second Click
                     this.classList.remove('tr-active');
                     // Dissable Edit Mode
-                    let editModeSelection = document.getElementById('collapse4');
-                    editModeSelection.style.display = "none";
+                    ToggleEditMode('dissable');
     
                     // Update Background Color
                     let selectedBackgroundColor = "rgb(108, 117, 125)";
@@ -64,8 +82,7 @@ function TableElement_OnClick(){
                 }
     
                 // Activate Edit Mode
-                let editModeSelection = document.getElementById('collapse4');
-                editModeSelection.style.display = "flex";
+                ToggleEditMode('enable');
                 
     
                 // Update Background Color
@@ -294,6 +311,98 @@ const SaveEditedFormData = (table) =>{
     for(let c = 0; c < selectedRow.childElementCount; c++){
         selectedRow.children[c].innerText = formInputValueArray[c];
     }
+}
+
+const AddTableElement = (table) =>{
+    var currentTable;
+    var inputType;
+    var rowType;
+
+    if(editModeActive == true){
+        ToggleEditMode('dissable');
+    }
+
+    // Select current table
+    switch (table){
+        case "phone":
+            currentTable = document.getElementsByClassName('phone-table-body')[0];
+            inputType = "phoneInput";
+            rowType = "phone";
+            break;
+        case "key":
+            break;
+        case "account":
+            break;
+        case "maintenance":
+            break;
+        default:
+            return;
+    }
+
+    // Get form inputs
+    let indexer = 1;
+    let availableElements = true;
+    let inputValue;
+    let formInputValueArray = new Array();
+    while(availableElements){
+        try {
+            let formInput = document.getElementById((inputType+indexer).toString());
+            if(formInput.classList.contains('form-check-input')){
+                // Radio
+                let yes = document.getElementsByClassName('radio-yes')[0];
+                let no = document.getElementsByClassName('radio-no')[0];
+                if(yes.checked){
+                    inputValue = "Yes";
+                } else if(no.checked){
+                    inputValue = "No";
+                } else {
+                    inputValue = "NA";
+                    console.log("Error | Add Form Data {yes/no does not exist}");
+                }
+            } else {
+                inputValue = formInput.value;
+            }
+            formInputValueArray.push(inputValue);
+
+            indexer++;
+        } catch (error) {
+            availableElements = false;
+            break;
+        }
+    }
+
+    // Check required elements
+    if(formInputValueArray[0] == undefined || formInputValueArray[0] == null || formInputValueArray[0] == ""){
+        alert('You must add a phone number to add to the table!');
+        return;
+    }
+
+    if(!formInputValueArray[0].toString().includes('-')){
+        let newPhoneNum = formInputValueArray[0].toString().substring(0, 3) + '-' + formInputValueArray[0].toString().substring(3, formInputValueArray[0].length);
+        formInputValueArray[0] = newPhoneNum;
+    }
+
+    // Build element
+    var row = document.createElement('tr');
+    for(let i = 0; i < formInputValueArray.length; i++){
+        var cell = document.createElement('td');
+        if(i == 0){
+            // first element
+            cell.style.fontWeight = 'bold';
+        } 
+
+        var cellText = document.createTextNode(formInputValueArray[i].toString());
+
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+        row.classList.add(`${rowType}-row`);
+
+        row.addEventListener('click', TableElement_OnClick);
+    }
+
+    // Add element to table
+    currentTable.insertBefore(row, currentTable.children[0]);
+
 }
 
 const SortTable = (table, sort_index, currentElement) =>{
