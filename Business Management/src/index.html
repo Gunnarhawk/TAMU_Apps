@@ -43,13 +43,16 @@
     <div class="col col-sm-10 offset-sm-1">
       <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Phones</a>
+          <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="UpdateCurrentPage(1);">Phones</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Keys</a>
+          <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="UpdateCurrentPage(2);">Keys</a>
         </li>
         <li class="nav-item" role="presentation">
-          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Purchases</a>
+          <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" onclick="UpdateCurrentPage(3);">Accounts</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="maintenance-tab" data-toggle="tab" href="#maintenance" role="tab" aria-controls="maintenance" aria-selected="false" onclick="UpdateCurrentPage(4);">Maintenance</a>
         </li>
       </ul>
       <div class="tab-content border-content" id="myTabContent">
@@ -66,13 +69,16 @@
                   <a class="nav-link" href="#">Clear</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton();">Delete</a>
+                  <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton(1);">Delete</a>
                 </li>
                  <li class="nav-item">
                   <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#">Refresh</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#collapse4" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Edit</a>
                 </li>
               </ul>
               <br>
@@ -89,22 +95,27 @@
               <div class="collapse" id="collapse3">
                 <div class="card card-body">
                   <h4>Search for a Phone Number</h4>
-                  <input type="text" class="form-control" id="myInput" onkeyup="PhoneTableSearch();" placeholder="Search..">
+                  <input type="text" class="form-control" id="myInput1" onkeyup="TableSearch(1);" placeholder="Search..">
                 </div>
               </div>
               <div class="collapse" id="collapse2">
-                <div class="card card-body">
-                  <h4>Delete mode is now active, click on an element to delete it.</h4>
-                  </div>
+                <div class="card card-body bg-danger">
+                  <h4>Delete mode is now active, click on an element to delete it. To deactivate, click the 'Delete' button again.</h4>
+                </div>
+              </div>
+              <div class="collapse" id="collapse4">
+                <div class="card card-body bg-info">
+                  <h4>Edit Mode is now active, to save your edits, click the save button. To deactivate, click the highlighted row again.</h4>
                 </div>
               </div>
             </div>
+          </div>
           <div class="row">
             <div class="col col-sm-10 offset-sm-1">
               <br>
               <h3 class="phone-directory-name">Phone Database</h3>
               <div class="table-responsive table-sticky">
-                <table class="table table-hover phone-table" id="searchable">
+                <table class="table table-hover phone-table" id="searchable1">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -146,48 +157,48 @@
                         <div class="form-row">
                           <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
                             <label>Phone Number</label>
-                            <input type="text" class="form-control" placeholder="000-0000" >
+                            <input type="text" class="form-control" id="phoneInput1" placeholder="000-0000" >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Advisor</label>
-                            <input type="text" class="form-control" placeholder="" >
+                            <input type="text" class="form-control" id="phoneInput2" placeholder="" >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Room #</label>
-                            <input type="text" class="form-control" placeholder="243" >
+                            <input type="text" class="form-control" id="phoneInput3" placeholder="243" >
                           </div>
                         </div>
                         <br>
                         <div class="form-row">
                           <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
                             <label>Usage</label>
-                            <input type="text" class="form-control" placeholder="" >
+                            <input type="text" class="form-control" id="phoneInput4" placeholder="" >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Comments</label>
-                            <input type="text" class="form-control" placeholder="..." >
+                            <input type="text" class="form-control" id="phoneInput5" placeholder="..." >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Extension Rooms</label>
-                            <input type="text" class="form-control" placeholder="244" >
+                            <input type="text" class="form-control" id="phoneInput6" placeholder="244" >
                           </div>
                         </div>
                         <br>
                         <div class="form-row">
                           <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
                             <label>Equipment</label>
-                            <input type="text" class="form-control" placeholder="" >
+                            <input type="text" class="form-control" id="phoneInput7" placeholder="" >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Disconnected</label>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                              <input class="form-check-input radio-yes" type="radio" name="phoneInput8" id="exampleRadios1" value="option1">
                               <label class="form-check-label" for="exampleRadios1">
                                 Yes
                               </label>
                             </div>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" checked>
+                              <input class="form-check-input radio-no" type="radio" name="phoneInput8" id="exampleRadios2" value="option2" checked>
                               <label class="form-check-label" for="exampleRadios2">
                                 No
                               </label>
@@ -195,22 +206,22 @@
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Date Disconnected</label>
-                            <input type="text" class="form-control" placeholder="(dd/mm/yyyy)" >
+                            <input type="text" class="form-control" id="phoneInput9" placeholder="(dd/mm/yyyy)" >
                           </div>
                         </div>
                         <br>
                         <div class="form-row">
                           <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
                             <label>Notes</label>
-                            <input type="text" class="form-control" placeholder="..." >
+                            <input type="text" class="form-control" id="phoneInput10" placeholder="..." >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Date Installed</label>
-                            <input type="text" class="form-control" placeholder="(dd/mm/yyyy)" >
+                            <input type="text" class="form-control" id="phoneInput11" placeholder="(dd/mm/yyyy)" >
                           </div>
                           <div class="col col-lg-3 col-md-12 col-12 ">
                             <label>Account</label>
-                            <input type="text" class="form-control" placeholder="" >
+                            <input type="text" class="form-control" id="phoneInput12" placeholder="" >
                           </div>
                         </div>
                       </form>
@@ -403,195 +414,446 @@
                     </div>
                   </div>
                 </div>
-              </div>
-              
-              </div>
-        
-        
+              </div>  
             </div>
           </div>
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <!--KEYS SECTION-->
-            <br>
-            <div class="row">
-              <div class="col col-sm-10 offset-sm-1">
-                <ul class="nav phone-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="#collapse1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Add</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Clear</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Delete</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Refresh</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Clone</a>
-                  </li>
-                </ul>
-                <br>
-                <div class="collapse" id="collapse1">
-                  <div class="card card-body">
-                    <h4>To add data to the table, fill out the forms below, then click the submit button.</h4>
-                    <div class="row">
-                      <div class="col-4">
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="collapse" id="collapse2">
-                  <div class="card card-body">
-                    <h4>Search for a Phone Number</h4>
-                    <input type="text" class="form-control" id="myInput2" onkeyup="KeyTableSearch();" placeholder="Search..">
-                  </div>
-                </div>
+        </div>
+        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <!--KEYS SECTION-->
+          <br>
+          <div class="row">
+            <div class="col col-sm-10 offset-sm-1">
+              <ul class="nav phone-nav">
+                <li class="nav-item">
+                 <a class="nav-link" href="#collapse1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Add</a>
+                </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="#">Clear</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton(2);">Delete</a>
+                </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
+                </li>
+                <li class="nav-item">
+                 <a class="nav-link" href="#">Refresh</a>
+                </li>
+              </ul>
+             <br>
+              <div class="collapse" id="collapse1">
+               <div class="card card-body">
+                 <h4>To add data to the table, fill out the forms below, then click the submit button.</h4>
+                 <div class="row">
+                   <div class="col-4">
+                     <button type="submit" class="btn btn-primary">Submit</button>
+                   </div>
+                 </div>
+               </div>
+              </div>
+              <div class="collapse" id="collapse3">
+                <div class="card card-body">
+                 <h4>Search for a Key</h4>
+                 <input type="text" class="form-control" id="myInput2" onkeyup="TableSearch(2);" placeholder="Search..">
+               </div>
+             </div>
+             <div class="collapse" id="collapse2">
+               <div class="card card-body bg-danger">
+                 <h4>Delete mode is now active, click on an element to delete it. To deactivate, click the 'Delete' button again.</h4>
+                 </div>
+              </div>
+            </div>  
+          </div>
+          <div class="row">
+            <div class="col col-sm-10 offset-sm-1">
+              <br>
+              <h3 class="key-directory-name">Key Database</h3>
+              <div class="table-responsive table-sticky">
+                <table class="table table-hover key-table" id="searchable2">
+                  <thead>
+                    <tr>
+                      <th scope="col">Key</th>
+                      <th scope="col">Hook</th>
+                      <th scope="col">Issue Date</th>
+                      <th scope="col">Purpose</th>
+                      <th scope="col">Holder</th>
+                      <th scope="col">SSN</th>
+                      <th scope="col">Advisor</th>
+                      <th scope="col">Building</th>
+                      <th scope="col">Room</th>
+                    </tr>
+                  </thead>
+                  <tbody class="key-table-body">
+                    <!--Filled by JS-->
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div class="row">
-              <div class="col col-sm-10 offset-sm-1">
-                <br>
-                <h3 class="key-directory-name">Key Database</h3>
-                <div class="table-responsive table-sticky">
-                  <table class="table table-hover key-table" id="searchable2">
-                    <thead>
-                      <tr>
-                        <th scope="col">Key</th>
-                        <th scope="col">Hook</th>
-                        <th scope="col">Issue Date</th>
-                        <th scope="col">Purpose</th>
-                        <th scope="col">Holder</th>
-                        <th scope="col">SSN</th>
-                        <th scope="col">Advisor</th>
-                        <th scope="col">Building</th>
-                        <th scope="col">Room</th>
-                      </tr>
-                    </thead>
-                    <tbody class="key-table-body">
-                      <!--Filled by JS-->
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="col col-sm-10 offset-sm-1">
-                <div class="row">
-                  <div class="col-3">
-                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                      <a class="nav-link active" id="v-pills-edit-tab" data-toggle="pill" href="#v-pills-edit" role="tab" aria-controls="v-pills-edit" aria-selected="true">Edit Key</a>
-                      <a class="nav-link" id="v-pills-hist-tab" data-toggle="pill" href="#v-pills-hist" role="tab" aria-controls="v-pills-hist" aria-selected="false">Key History</a>
-                      <a class="nav-link" id="v-pills-security-tab" data-toggle="pill" href="#v-pills-security" role="tab" aria-controls="v-pills-security" aria-selected="false">Security</a>
-                    </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col col-sm-10 offset-sm-1">
+              <div class="row">
+                <div class="col-3">
+                  <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    <a class="nav-link active" id="v-pills-edit-tab" data-toggle="pill" href="#v-pills-edit" role="tab" aria-controls="v-pills-edit" aria-selected="true">Edit Key</a>
+                    <a class="nav-link" id="v-pills-hist-tab" data-toggle="pill" href="#v-pills-hist" role="tab" aria-controls="v-pills-hist" aria-selected="false">Key History</a>
+                    <a class="nav-link" id="v-pills-security-tab" data-toggle="pill" href="#v-pills-security" role="tab" aria-controls="v-pills-security" aria-selected="false">Security</a>
                   </div>
-                  <div class="col-9">
-                    <div class="tab-content" id="v-pills-tabContent">
-                      <div class="tab-pane fade show active" id="v-pills-edit" role="tabpanel" aria-labelledby="v-pills-edit-tab">
-                        <form>
-                          <div class="form-row">
-                            <div class="col">
-                              <label>Key Name</label>
-                              <input type="text" class="form-control" id="keyInput1" placeholder="A1234B">
-                            </div>
-                            <div class="col">
-                              <label>Hook</label>
-                              <input type="text" class="form-control" id="keyInput1" placeholder="123">
-                            </div>
-                            <div class="col">
-                              <label>Date Issued</label>
-                              <input type="text" class="form-control" id="buildingInput1" placeholder="(dd/mm/yyyy)">
-                            </div>
+                </div>
+                <div class="col-9">
+                  <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-edit" role="tabpanel" aria-labelledby="v-pills-edit-tab">
+                      <form>
+                        <div class="form-row">
+                          <div class="col">
+                            <label>Key Name</label>
+                            <input type="text" class="form-control" id="keyInput1" placeholder="A1234B">
                           </div>
-                          <div class="form-row">
-                            <div class="col">
-                              <label>Purpose</label>
-                              <input type="text" class="form-control" id="hookInput1" placeholder="...">
-                            </div>
-                            <div class="col">
-                              <label>Holder</label>
-                              <input type="text" class="form-control" id="hookInput1" placeholder="">
-                            </div>
-                            <div class="col">
-                              <label>SSN</label>
-                              <input type="text" class="form-control" id="hookInput1" placeholder="">
-                            </div>
+                          <div class="col">
+                            <label>Hook</label>
+                            <input type="text" class="form-control" id="keyInput1" placeholder="123">
                           </div>
-                          <div class="form-row">
-                            <div class="col">
-                              <label>Advisor</label>
-                              <input type="text" class="form-control" id="hookInput1" placeholder="">
-                            </div>
-                            <div class="col">
-                              <label>Building</label>
-                              <input type="text" class="form-control" id="hookInput1" placeholder="123">
-                            </div>
-                            <div class="col">
-                              <label>Room</label>
-                              <input type="text" class="form-control" id="hookInput1" placeholder="123">
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="tab-pane fade" id="v-pills-hist" role="tabpanel" aria-labelledby="v-pills-hist-tab">
-                        <div class="row">
-                          <div clas="col col-12">
-                            <form>
-                              <label>Key Name</label>
-                              <input type="text" class="form-control" id="keyInput1" placeholder="A1234B">
-                            </form>
+                          <div class="col">
+                            <label>Date Issued</label>
+                            <input type="text" class="form-control" id="buildingInput1" placeholder="(dd/mm/yyyy)">
                           </div>
                         </div>
-                        <div class="row">
-                          <div class="col col-12">
-                            <h4>History</h4>
-                            <div class="table-responsive">
-                              <table class="table table-hover table-borderless key-hist-table">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">From</th>
-                                    <th scope="col">To</th>
-                                    <th scope="col">Holder</th>
-                                    <th scope="col">Advisor</th>
-                                    <th scope="col">Purpose</th>
-                                  </tr>
-                                </thead>
-                                <tbody class="key-table-body">
-                                  <tr>
-                                    <td>NA</td>
-                                    <td>NA</td>
-                                    <td>NA</td>
-                                    <td>NA</td>
-                                    <td>NA</td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
+                        <div class="form-row">
+                          <div class="col">
+                            <label>Purpose</label>
+                            <input type="text" class="form-control" id="hookInput1" placeholder="...">
+                          </div>
+                          <div class="col">
+                            <label>Holder</label>
+                            <input type="text" class="form-control" id="hookInput1" placeholder="">
+                          </div>
+                          <div class="col">
+                            <label>SSN</label>
+                            <input type="text" class="form-control" id="hookInput1" placeholder="">
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <div class="col">
+                            <label>Advisor</label>
+                            <input type="text" class="form-control" id="hookInput1" placeholder="">
+                          </div>
+                          <div class="col">
+                            <label>Building</label>
+                            <input type="text" class="form-control" id="hookInput1" placeholder="123">
+                          </div>
+                          <div class="col">
+                            <label>Room</label>
+                            <input type="text" class="form-control" id="hookInput1" placeholder="123">
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-hist" role="tabpanel" aria-labelledby="v-pills-hist-tab">
+                      <div class="row">
+                        <div clas="col col-12">
+                          <form>
+                            <label>Key Name</label>
+                            <input type="text" class="form-control" id="keyInput1" placeholder="A1234B">
+                          </form>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col col-12">
+                          <h4>History</h4>
+                          <div class="table-responsive">
+                            <table class="table table-hover table-borderless key-hist-table">
+                              <thead>
+                                <tr>
+                                  <th scope="col">From</th>
+                                  <th scope="col">To</th>
+                                  <th scope="col">Holder</th>
+                                  <th scope="col">Advisor</th>
+                                  <th scope="col">Purpose</th>
+                                </tr>
+                              </thead>
+                              <tbody class="key-table-body">
+                                <tr>
+                                  <td>NA</td>
+                                  <td>NA</td>
+                                  <td>NA</td>
+                                  <td>NA</td>
+                                  <td>NA</td>
+                                </tr>
+                              </tbody>
+                            </table>
                           </div>
                         </div>
                       </div>
-                      <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab">
-                        <p>security</p>
-                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-security" role="tabpanel" aria-labelledby="v-pills-security-tab">
+                      <p>security</p>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-          <!--PURCHASE SECTION-->
+          <!--ACCOUNT SECTION-->
           <div class="row">
             <div class="col col-lg-10 offset-lg-1">
-              <p>
-                This is the purchases section
-              </p>
+              <div class="row">
+                <div class="col col-12">
+                  <br>
+                  <ul class="nav phone-nav">
+                    <li class="nav-item">
+                     <a class="nav-link" href="#collapse1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Add</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link" href="#">Clear</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton(3);">Delete</a>
+                   </li>
+                    <li class="nav-item">
+                     <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link" href="#">Refresh</a>
+                   </li>
+                 </ul>
+                 <br>
+                 <div class="collapse" id="collapse1">
+                   <div class="card card-body">
+                     <h4>To add data to the table, fill out the forms below, then click the submit button.</h4>
+                     <div class="row">
+                       <div class="col-4">
+                         <button type="submit" class="btn btn-primary">Submit</button>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="collapse" id="collapse3">
+                   <div class="card card-body">
+                     <h4>Search for a Phone Number</h4>
+                     <input type="text" class="form-control" id="myInput3" onkeyup="TableSearch(3);" placeholder="Search..">
+                   </div>
+                 </div>
+                 <div class="collapse" id="collapse2">
+                  <div class="card card-body bg-danger">
+                    <h4>Delete mode is now active, click on an element to delete it. To deactivate, click the 'Delete' button again.</h4>
+                  </div>
+                  </div>
+                 </div>
+                </div>
+              <div class="row">
+                <div class="col col-12">
+                  <h3 class="account-directory-name">Account Database</h3>
+                  <div class="table-responsive table-sticky">
+                    <table class="table table-hover account-table" id="searchable3">
+                      <thead>
+                        <tr>
+                          <th scope="col">Account</th>
+                          <th scope="col">Description</th>
+                          <th scope="col">User</th>
+                          <th scope="col">Date Enetered</th>
+                          <th scope="col">Date Approved</th>
+                          <th scope="col">Notes</th>
+                        </tr>
+                      </thead>
+                      <tbody class="account-table-body">
+                        <!--Filled by JS-->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col col-12">
+                  <form>
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Account</label>
+                        <input type="text" class="form-control" id="accountInput1" placeholder="123456">
+                      </div>
+                      <div class="col">
+                        <label>Date Entered</label>
+                        <input type="text" class="form-control" id="accountInput2" placeholder="(dd/mm/yyyy)">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Description</label>
+                        <input type="text" class="form-control" id="accountInput3" placeholder="...">
+                      </div>
+                      <div class="col">
+                        <label>Date Approved</label>
+                        <input type="text" class="form-control" id="accountInput4" placeholder="(dd/mm/yyyy)">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                        <label>User</label>
+                        <input type="text" class="form-control" id="accountInput5" placeholder="">
+                      </div>
+                      <div class="col">
+                        <label>Notes</label>
+                        <input type="text" class="form-control" id="accountInput6" placeholder="...">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tab-pane fade" id="maintenance" role="tabpanel" aria-labelledby="maintenance-tab">
+          <!--MAINTENANCE SECTION-->
+          <br>
+          <div class="row">
+            <div class="col col-sm-10 offset-sm-1">
+              <div class="row">
+                <div class="col col-12">
+                  <br>
+                  <ul class="nav phone-nav">
+                    <li class="nav-item">
+                     <a class="nav-link" href="#collapse1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Add</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link" href="#">Clear</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton(4);">Delete</a>
+                   </li>
+                    <li class="nav-item">
+                     <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
+                   </li>
+                   <li class="nav-item">
+                     <a class="nav-link" href="#">Refresh</a>
+                   </li>
+                 </ul>
+                 <br>
+                 <div class="collapse" id="collapse1">
+                   <div class="card card-body">
+                     <h4>To add data to the table, fill out the forms below, then click the submit button.</h4>
+                     <div class="row">
+                       <div class="col-4">
+                         <button type="submit" class="btn btn-primary">Submit</button>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+                 <div class="collapse" id="collapse3">
+                   <div class="card card-body">
+                     <h4>Search for Maintenance</h4>
+                     <input type="text" class="form-control" id="myInput4" onkeyup="TableSearch(4);" placeholder="Search..">
+                   </div>
+                 </div>
+                 <div class="collapse" id="collapse2">
+                  <div class="card card-body bg-danger">
+                    <h4>Delete mode is now active, click on an element to delete it. To deactivate, click the 'Delete' button again.</h4>
+                  </div>
+                  </div>
+                 </div>
+                </div>
+              <div class="row">
+                <div class="col col-12">
+                  <h3 class="maintenance-directory-name">Maintenace Database</h3>
+                  <div class="table-responsive table-sticky">
+                    <table class="table table-hover maintenance-table" id="searchable4">
+                      <thead>
+                        <tr>
+                          <th scope="col">Order</th>
+                          <th scope="col">Order Date</th>
+                          <th scope="col">Building</th>
+                          <th scope="col">Room</th>
+                          <th scope="col">Date Needed</th>
+                          <th scope="col">Priority</th>
+                          <th scope="col">Requestor</th>
+                          <th scope="col">Reqr Phone</th>
+                          <th scope="col">Reqr Department</th>
+                          <th scope="col">Coordinator</th>
+                          <th scope="col">Coord Phone</th>
+                          <th scope="col">Coord Department</th>
+                          <th scope="col">WorkNature</th>
+                          <th scope="col">Account</th>
+                          <th scope="col">Transmitted By</th>
+                        </tr>
+                      </thead>
+                      <tbody class="maintenance-table-body">
+                        <!--Filled by JS-->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col col-12">
+                  <form>
+                    <div class="form-row">
+                      <div class="col col-lg-4 col-12">
+                        <label>Service Order</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="CHEM#####">
+                      </div>
+                      <div class="col col-lg-4 col-12">
+                        <label>Date & Time</label>
+                        <input type="text" class="form-control" id="maintenanceInput2" placeholder="(dd/mm/yyyy) 10:30 PM">
+                      </div>
+                      <div class="col col-lg-4 col-12">
+                        <label>Charge To</label>
+                        <input type="text" class="form-control" id="maintenanceInput3" placeholder="">
+                      </div>
+                    </div>
+                    <br>
+                    <h4>Reguarding</h4>
+                    <div class="form-row">
+                      <div class="col col-md-6 col-12">
+                        <label>Building</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="CHEM#####">
+                        <label>Building #</label>
+                        <input type="text" class="form-control" id="maintenanceInput2" placeholder="123">
+                        <label>Area/Room</label>
+                        <input type="text" class="form-control" id="maintenanceInput3" placeholder="1234">
+                        <label>Date Needed</label>
+                        <input type="text" class="form-control" id="maintenanceInput4" placeholder="(dd/mm/yyyy)">
+                        <label for="maintenanceInput5">Priority Code</label>
+                        <select multiple class="form-control" id="maintenanceInput5">
+                          <option>1 - Emergency Repair</option>
+                          <option>2 - Same Day Maintenance</option>
+                          <option>3 - Within 5 Work Days</option>
+                          <option>4 - Work In</option>
+                        </select>
+                      </div>
+                      <div class="col col-md-6 col-12">
+                        <label>Nature of Work</label>
+                        <textarea class="form-control" id="maintenanceInput3" rows="5"></textarea>
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                      <div class="col col-md-6 col-12">
+                        <h4>Requested By</h4>
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="555-5555">
+                        <label>Department</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="Chemistry">
+                      </div>
+                      <div class="col col-md-6 col-12">
+                        <h4>Coordinator</h4>
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="555-5555">
+                        <label>Lab</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="123">
+                        <label>Transmitted By</label>
+                        <input type="text" class="form-control" id="maintenanceInput1" placeholder="">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
         </div>
