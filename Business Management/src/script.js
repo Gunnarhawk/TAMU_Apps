@@ -2,14 +2,29 @@ var phoneDBElements = 0;
 var currentPage = 1;
 var deleteModeActive = false;
 var editModeActive = false;
+var currentPageStr = "";
 
 const UpdateCurrentPage = (page) =>{
     // Set the current page for other functions
     currentPage = page;
+    switch(currentPage){
+        case 1:
+            currentPageStr = 'phone';
+            break;
+        case 2:
+            currentPageStr = 'key';
+            break;
+        case 3:
+            currentPageStr = 'nitrogen';
+            break;
+        default:
+            console.log("Error | UpdateCurrentPage function cannot find page");
+            return;
+    }
 }
 
 const ToggleEditMode = (wishstate) =>{
-    let editModeSelection = document.getElementById('collapse4');
+    let editModeSelection = document.getElementById(`${currentPageStr}-collapse4`);
     switch (wishstate){
         case "enable":
             // activate edit mode
@@ -29,83 +44,91 @@ const ToggleEditMode = (wishstate) =>{
 function TableElement_OnClick(){
     // Return if window or if delete mode is active
     if(this != window && deleteModeActive == false){
-        switch (currentPage){
-            case 1:
-                // Phones
-                const phoneTable = document.getElementsByClassName('phone-table-body')[0];
-    
-                if(this.classList.contains('tr-active')){
-                    // Second Click
-                    this.classList.remove('tr-active');
-                    // Dissable Edit Mode
-                    ToggleEditMode('dissable');
-    
-                    // Update Background Color
-                    let selectedBackgroundColor = "rgb(108, 117, 125)";
-                    this.style.backgroundColor = "transparent";
-                    this.addEventListener('mouseover', function(){
+        let currentTable;
+        let innerTextArray;
+
+        const UpdateElement = () =>{
+            // EDIT MODE
+            if(this.classList.contains('tr-active')){
+                // Second Click
+                this.classList.remove('tr-active');
+                // Dissable Edit Mode
+                ToggleEditMode('dissable');
+
+                // Update Background Color
+                let selectedBackgroundColor = "rgb(108, 117, 125)";
+                this.style.backgroundColor = "transparent";
+                this.addEventListener('mouseover', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor ="#e4e4e4";
+                    }
+                });
+                this.addEventListener('mouseout', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor = "transparent";
+                    }
+                });
+
+                // Remove form data / restore to defaults
+                for(let i = 1; i <= 12; i++){
+                    // 8 is the index for the radio
+                    if(i == 8){
+                        var yes = document.getElementsByClassName('radio-yes')[0];
+                        var no = document.getElementsByClassName('radio-no')[0];
+                        yes.checked = false;
+                        no.checked = true;
+                    } else {
+                        // Every other index, put content in text box
+                        let formInput = `phoneInput${i}`;
+                        let inputID = document.getElementById(formInput);
+                        inputID.value = "";
+                    }
+                }
+                return;
+            } else {
+                // First Click
+                // Add active class
+                for(let c = 0; c < currentTable.childElementCount; c++){
+                    if(currentTable.children[c].classList.contains('tr-active')){
+                        currentTable.children[c].classList.remove('tr-active');
+                    }
+                }
+                this.classList.add('tr-active');
+            }
+
+            // Activate Edit Mode
+            ToggleEditMode('enable');
+            
+
+            // Update Background Color
+            let selectedBackgroundColor = "rgb(108, 117, 125)";
+            for(j = 0; j < currentTable.childElementCount; j++){
+                if(currentTable.children[j].style.backgroundColor == selectedBackgroundColor){
+                    currentTable.children[j].style.backgroundColor = "transparent";
+                    currentTable.children[j].addEventListener('mouseover', function(){
                         if(this.style.backgroundColor != selectedBackgroundColor){
                             this.style.backgroundColor ="#e4e4e4";
                         }
                     });
-                    this.addEventListener('mouseout', function(){
+                    currentTable.children[j].addEventListener('mouseout', function(){
                         if(this.style.backgroundColor != selectedBackgroundColor){
                             this.style.backgroundColor = "transparent";
                         }
                     });
+                }
+            }
+            this.style.backgroundColor = selectedBackgroundColor;
+        }
 
-                    // Remove form data / restore to defaults
-                    for(let i = 1; i <= 12; i++){
-                        // 8 is the index for the radio
-                        if(i == 8){
-                            var yes = document.getElementsByClassName('radio-yes')[0];
-                            var no = document.getElementsByClassName('radio-no')[0];
-                            yes.checked = false;
-                            no.checked = true;
-                        } else {
-                            // Every other index, put content in text box
-                            let formInput = `phoneInput${i}`;
-                            let inputID = document.getElementById(formInput);
-                            inputID.value = "";
-                        }
-                    }
-                    return;
-                } else {
-                    // First Click
-                    // Add active class
-                    for(let c = 0; c < phoneTable.childElementCount; c++){
-                        if(phoneTable.children[c].classList.contains('tr-active')){
-                            phoneTable.children[c].classList.remove('tr-active');
-                        }
-                    }
-                    this.classList.add('tr-active');
-                }
-    
-                // Activate Edit Mode
-                ToggleEditMode('enable');
-                
-    
-                // Update Background Color
-                let selectedBackgroundColor = "rgb(108, 117, 125)";
-                for(j = 0; j < phoneTable.childElementCount; j++){
-                    if(phoneTable.children[j].style.backgroundColor == selectedBackgroundColor){
-                        phoneTable.children[j].style.backgroundColor = "transparent";
-                        phoneTable.children[j].addEventListener('mouseover', function(){
-                            if(this.style.backgroundColor != selectedBackgroundColor){
-                                this.style.backgroundColor ="#e4e4e4";
-                            }
-                        });
-                        phoneTable.children[j].addEventListener('mouseout', function(){
-                            if(this.style.backgroundColor != selectedBackgroundColor){
-                                this.style.backgroundColor = "transparent";
-                            }
-                        });
-                    }
-                }
-                this.style.backgroundColor = selectedBackgroundColor;
+        switch (currentPage){
+            case 1:
+                // Phones
+                currentTable = document.getElementsByClassName('phone-table-body')[0];
+
+                UpdateElement();
     
                 // Update Forms
-                let innerTextArray = this.innerText.split('\t');
+                innerTextArray = this.innerText.split('\t');
                 for(let i = 1; i <= 12; i++){
                     // 8 is the index for the radio
                     if(i == 8){
@@ -130,17 +153,25 @@ function TableElement_OnClick(){
                 break;
             case 2:
                 // Keys
+                currentTable = document.getElementsByClassName('key-table-body')[0];
+
+                UpdateElement();
+
+                //Update Forms
+                innerTextArray = this.innerText.split('\t');
+                for(let i = 1; i <= 9; i++){
+                    let formInput = `keyInput${i}`;
+                    let inputID = document.getElementById(formInput);
+                    inputID.value = innerTextArray[i-1].toString();
+                }
                 break;
             case 3:
-                // Accounts
-                break;
-            case 4:
-                // Maintenance
+                // Nitrogen
                 break;
             default:
                 console.log("Error | Table Element {Current Page Not Found}");
                 break;
-        }
+        } 
     }
 }
 
@@ -194,7 +225,7 @@ const FillTable = () =>{
             row.appendChild(cell);
             row.classList.add('key-row');
 
-            row.addEventListener('click', TableElement_OnClick(row));
+            row.addEventListener('click', TableElement_OnClick);
         }
         document.getElementsByClassName('key-table-body')[0].appendChild(row);
     }
@@ -203,49 +234,139 @@ const FillTable = () =>{
 
     for(let j = 0; j < numElements; j++){
         var row = document.createElement('tr');
-        let keyNum = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
-        for(let i = 0; i < 6; i++){
+        let roomNum =  Math.floor((Math.random() * 9) + 1).toString() + Math.floor((Math.random() * 9) + 1).toString() + Math.floor((Math.random() * 9) + 1).toString();
+        for(let i = 0; i < 7; i++){
             var cell = document.createElement('td');
             if(i == 0){
                 // first element
                 cell.style.fontWeight = 'bold';
-                var cellText = document.createTextNode(keyNum.toString());
+                var cellText = document.createTextNode(roomNum.toString());
             } else {
                 var cellText = document.createTextNode('NA');
             }
             cell.appendChild(cellText);
             row.appendChild(cell);
-            row.classList.add('account-row');
+            row.classList.add('nitrogen-row');
 
-            row.addEventListener('click', TableElement_OnClick(row));
+            row.addEventListener('click', TableElement_OnClick);
         }
-        document.getElementsByClassName('account-table-body')[0].appendChild(row);
+        document.getElementsByClassName('nitrogen-table-body')[0].appendChild(row);
     }
 
-    document.getElementsByClassName('account-directory-name')[0].innerHTML = `Account Database (${numElements} results)`;
+    document.getElementsByClassName('nitrogen-directory-name')[0].innerHTML = `Nitrogen Database (${numElements} results)`;
+}
 
-    for(let j = 0; j < numElements; j++){
-        var row = document.createElement('tr');
-        let keyNum = "CHEM" + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
-        for(let i = 0; i < 15; i++){
-            var cell = document.createElement('td');
-            if(i == 0){
-                // first element
-                cell.style.fontWeight = 'bold';
-                var cellText = document.createTextNode(keyNum.toString());
+function NitrogenDateTable_OnClick(){
+    if(this != window && deleteModeActive == false){
+        const currentTable = document.getElementsByClassName('nitrogen-date-table-body')[0];
+        
+        const UpdateElement = () =>{
+            // EDIT MODE
+            if(this.classList.contains('tr-active')){
+                // Second Click
+                this.classList.remove('tr-active');
+
+                // Update Background Color
+                let selectedBackgroundColor = "rgb(108, 117, 125)";
+                this.style.backgroundColor = "transparent";
+                this.addEventListener('mouseover', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor ="#e4e4e4";
+                    }
+                });
+                this.addEventListener('mouseout', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor = "transparent";
+                    }
+                });
+                return;
             } else {
-                var cellText = document.createTextNode('NA');
+                // First Click
+                // Add active class
+                for(let c = 0; c < currentTable.childElementCount; c++){
+                    if(currentTable.children[c].classList.contains('tr-active')){
+                        currentTable.children[c].classList.remove('tr-active');
+                    }
+                }
+                this.classList.add('tr-active');
             }
-            cell.appendChild(cellText);
-            row.appendChild(cell);
-            row.classList.add('maintenance-row');
 
-            row.addEventListener('click', TableElement_OnClick(row));
+            // Update Background Color
+            let selectedBackgroundColor = "rgb(108, 117, 125)";
+            for(j = 0; j < currentTable.childElementCount; j++){
+                if(currentTable.children[j].style.backgroundColor == selectedBackgroundColor){
+                    currentTable.children[j].style.backgroundColor = "transparent";
+                    currentTable.children[j].addEventListener('mouseover', function(){
+                        if(this.style.backgroundColor != selectedBackgroundColor){
+                            this.style.backgroundColor ="#e4e4e4";
+                        }
+                    });
+                    currentTable.children[j].addEventListener('mouseout', function(){
+                        if(this.style.backgroundColor != selectedBackgroundColor){
+                            this.style.backgroundColor = "transparent";
+                        }
+                    });
+                }
+            }
+            this.style.backgroundColor = selectedBackgroundColor;
         }
-        document.getElementsByClassName('maintenance-table-body')[0].appendChild(row);
+        UpdateElement();
+
+        // Update secondary table for Nitrogen
+        // TODO ----------
+        
+    }
+}
+
+const FillNitrogenTableLeft = () =>{
+    const monthArray = [31,28,31,30,31,30,31,31,30,31,30,31];
+    let date = new Date();
+    monthArray[1] = (date.getFullYear().toString()) % 4 == 0 ? 29 : 28;
+    const nitrogenDateTable = document.getElementsByClassName('nitrogen-date-table-body')[0];
+
+    const _buildDate = (day, month, year) =>{
+        if(day.toString().length <= 1){
+            day = `0${day}`;
+        }
+        return `${month}/${day}/${year}`;
     }
 
-    document.getElementsByClassName('maintenance-directory-name')[0].innerHTML = `Maintenance Database (${numElements} results)`;
+    let startEndDates = new Array();
+
+    let startYear = 2000;
+
+    for(let i = 0; i < (date.getFullYear() - startYear)+1; i++){
+        for(let month = 1; month <= 12; month++){
+            // Only display up to the current date
+            if((startYear+i) == date.getFullYear() && month > date.getMonth()+1){
+                break;
+            }
+            let startDate = _buildDate(1, month, startYear+i);
+            let endDate = _buildDate(monthArray[month-1], month, startYear+i);
+
+            var row = document.createElement('tr');
+            for(let i = 0; i < 2; i++){
+                var cell = document.createElement('td');
+                if(i == 0){
+                    // first element
+                    cell.style.fontWeight = 'bold';
+                    var cellText = document.createTextNode(startDate.toString());
+                } else {
+                    var cellText = document.createTextNode(endDate.toString());
+                }
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                row.classList.add('nitrogen-row');
+        
+                row.addEventListener('click', NitrogenDateTable_OnClick);
+            }
+            startEndDates.push(row);
+        }
+    }
+
+    for(let j = startEndDates.length -1; j >= 0; j--){
+        nitrogenDateTable.appendChild(startEndDates[j]);
+    }
 }
 
 const SaveEditedFormData = (table) =>{
@@ -260,11 +381,10 @@ const SaveEditedFormData = (table) =>{
             inputType = "phoneInput";
             break;
         case "key":
+            currentTable = document.getElementsByClassName('key-table-body')[0];
+            inputType = "keyInput";
             break;
-        case "account":
-            break;
-        case "maintenance":
-            break;
+        case "nitrogen":
         default:
             return;
     }
@@ -330,10 +450,11 @@ const AddTableElement = (table) =>{
             rowType = "phone";
             break;
         case "key":
+            currentTable = document.getElementsByClassName('key-table-body')[0];
+            inputType = "keyInput";
+            rowType = "key";
             break;
-        case "account":
-            break;
-        case "maintenance":
+        case "nitrogen":
             break;
         default:
             return;
@@ -373,11 +494,11 @@ const AddTableElement = (table) =>{
 
     // Check required elements
     if(formInputValueArray[0] == undefined || formInputValueArray[0] == null || formInputValueArray[0] == ""){
-        alert('You must add a phone number to add to the table!');
+        alert('You must have a first value to add to the table!');
         return;
     }
 
-    if(!formInputValueArray[0].toString().includes('-')){
+    if(rowType == 'phone' && !formInputValueArray[0].toString().includes('-')){
         let newPhoneNum = formInputValueArray[0].toString().substring(0, 3) + '-' + formInputValueArray[0].toString().substring(3, formInputValueArray[0].length);
         formInputValueArray[0] = newPhoneNum;
     }
@@ -415,6 +536,12 @@ const SortTable = (table, sort_index, currentElement) =>{
     let x,y; // two compared elements, will be set while compairing
     let i; // indexer whose scope must be exterior the loop
 
+    // Check if it is the body call
+    if(currentElement == null){
+        currentElement = document.getElementsByClassName(`${table}-table-body`)[0].parentElement.children[0].children[0].children[0];
+        switchcount = 1;
+    }
+
     // Check current table
     switch (table){
         case "phone":
@@ -424,11 +551,8 @@ const SortTable = (table, sort_index, currentElement) =>{
         case "key":
             currentTable = document.getElementsByClassName('key-table-body')[0];
             break;
-        case "account":
-            currentTable = document.getElementsByClassName('account-table-body')[0];
-            break;
-        case "maintenance":
-            currentTable = document.getElementsByClassName('maintenance-table-body')[0];
+        case "nitrogen":
+            currentTable = document.getElementsByClassName('nitrogen-table-body')[0];
             break;
         default:
             return;
@@ -518,10 +642,7 @@ const DeleteButton = (db) =>{
             _table = document.getElementsByClassName('key-table-body')[0];
             break;
         case 3:
-            _table = document.getElementsByClassName('account-table-body')[0];
-            break;
-        case 4:
-            _table = document.getElementsByClassName('maintenance-table-body')[0];
+            _table = document.getElementsByClassName('nitrogen-table-body')[0];
             break;
     }
 
