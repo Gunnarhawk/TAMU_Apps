@@ -621,7 +621,7 @@
                       <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton(2);">Delete</a>
                     </li>
                     <li class="nav-item">
-                    <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
+                      <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
                     </li>
                     <li class="nav-item">
                     <a class="nav-link" href="#">Refresh</a>
@@ -641,12 +641,22 @@
                   <div class="collapse" id="collapse3">
                     <div class="card card-body">
                     <h4>Search for a Key</h4>
-                    <input type="text" class="form-control" id="myInput2" onkeyup="TableSearch(2);" placeholder="Search..">
+                    <input type="text" class="form-control" id="myInput3" onkeyup="TableSearch(3);" placeholder="Search..">
                   </div>
                 </div>
                 <div class="collapse" id="collapse2">
                   <div class="card card-body bg-danger">
                     <h4>Delete mode is now active, click on an element to delete it. To deactivate, click the 'Delete' button again.</h4>
+                    </div>
+                  </div>
+                </div>
+                <div class="collapse" id="nitrogen-collapse4">
+                  <div class="card card-body bg-info">
+                    <h4>Edit Mode is now active, to save your edits, click the save button. To deactivate, click the highlighted row again.</h4>
+                    <div class="row">
+                      <div class="col-4">
+                        <button type="submit" class="btn btn-primary" onclick="SaveEditedFormData('nitrogen');">Save</button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -660,7 +670,7 @@
               <div class="row">
                 <div class="col col-sm-3 col-12">
                   <div class="table-responsive table-sticky">
-                    <table class="table table-hover nitrogen-date-table" id="searchable3">
+                    <table class="table table-hover nitrogen-date-table" id="non-searchable">
                       <thead>
                         <tr>
                           <th scope="col">Start Date</th>
@@ -672,10 +682,11 @@
                       </tbody>
                     </table>
                   </div>
+                  <br>
                 </div>
                 <div class="col col-sm-9 col-12">
                   <div class="table-responsive table-sticky">
-                    <table class="table table-hover nitrogen-table" id="searchable4">
+                    <table class="table table-hover nitrogen-table" id="searchable3">
                       <thead>
                         <tr>
                           <th scope="col">Room</th>
@@ -692,6 +703,55 @@
                       </tbody>
                     </table>
                   </div>
+                </div>
+              </div>
+              <br>
+              <div class="row">
+                <div class="col col-12">
+                  <form>
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Start Date</label>
+                        <input type="text" class="form-control" id="nitrogenDateInput1" placeholder="select above">
+                      </div>
+                      <div class="col">
+                        <label>End Date</label>
+                        <input type="text" class="form-control" id="nitrogenDateInput2" placeholder="select above">
+                      </div>
+                      <div class="col">
+                        <label>Room</label>
+                        <input type="text" class="form-control" id="nitrogenInput1" placeholder="123">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Name</label>
+                        <input type="text" class="form-control" id="nitrogenInput2" placeholder="">
+                      </div>
+                      <div class="col">
+                        <label>Serial #</label>
+                        <input type="text" class="form-control" id="nitrogenInput3" placeholder="">
+                      </div>
+                      <div class="col">
+                        <label>Previous Read</label>
+                        <input type="text" class="form-control" id="nitrogenInput4" placeholder="">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="col">
+                        <label>Current Read</label>
+                        <input type="text" class="form-control" id="nitrogenInput5" placeholder="">
+                      </div>
+                      <div class="col">
+                        <label>Pressure</label>
+                        <input type="text" class="form-control" id="nitrogenInput6" placeholder="">
+                      </div>
+                      <div class="col">
+                        <label>Order</label>
+                        <input type="text" class="form-control" id="nitrogenInput7" placeholder="">
+                      </div>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>

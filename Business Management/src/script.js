@@ -3,10 +3,12 @@ var currentPage = 1;
 var deleteModeActive = false;
 var editModeActive = false;
 var currentPageStr = "";
+var currentSortIndex = 0;
 
 const UpdateCurrentPage = (page) =>{
     // Set the current page for other functions
     currentPage = page;
+    currentSortIndex = 0;
     switch(currentPage){
         case 1:
             currentPageStr = 'phone';
@@ -157,7 +159,7 @@ function TableElement_OnClick(){
 
                 UpdateElement();
 
-                //Update Forms
+                // Update Forms
                 innerTextArray = this.innerText.split('\t');
                 for(let i = 1; i <= 9; i++){
                     let formInput = `keyInput${i}`;
@@ -167,6 +169,17 @@ function TableElement_OnClick(){
                 break;
             case 3:
                 // Nitrogen
+                currentTable = document.getElementsByClassName('nitrogen-table-body')[0];
+
+                UpdateElement();
+
+                // Update Forms
+                innerTextArray = this.innerText.split('\t');
+                for(let i = 1; i <= 9; i++){
+                    let formInput = `nitrogenInput${i}`;
+                    let inputID = document.getElementById(formInput);
+                    inputID.value = innerTextArray[i-1].toString();
+                }
                 break;
             default:
                 console.log("Error | Table Element {Current Page Not Found}");
@@ -314,6 +327,13 @@ function NitrogenDateTable_OnClick(){
 
         // Update secondary table for Nitrogen
         // TODO ----------
+
+        // Update start and end date in form
+        let startDateInput = document.getElementById('nitrogenDateInput1');
+        let endDateInput = document.getElementById('nitrogenDateInput2');
+
+        startDateInput.value = this.children[0].innerText;
+        endDateInput.value = this.children[1].innerText;
         
     }
 }
@@ -536,6 +556,8 @@ const SortTable = (table, sort_index, currentElement) =>{
     let x,y; // two compared elements, will be set while compairing
     let i; // indexer whose scope must be exterior the loop
 
+    currentSortIndex = sort_index;
+
     // Check if it is the body call
     if(currentElement == null){
         currentElement = document.getElementsByClassName(`${table}-table-body`)[0].parentElement.children[0].children[0].children[0];
@@ -617,7 +639,7 @@ const TableSearch = (db) =>{
 
     // check table row for value of text in search bar
     for (i = 0; i < tr.length; i++) {
-        td = tr[i].getElementsByTagName("td")[0];
+        td = tr[i].getElementsByTagName("td")[currentSortIndex];
         if (td) {
             txtValue = td.textContent || td.innerText;
             if (txtValue.toUpperCase().indexOf(filter) > -1) {
