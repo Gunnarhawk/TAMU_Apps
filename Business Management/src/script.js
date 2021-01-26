@@ -475,6 +475,9 @@ const AddTableElement = (table) =>{
             rowType = "key";
             break;
         case "nitrogen":
+            currentTable = document.getElementsByClassName('nitrogen-table-body')[0];
+            inputType = "nitrogenInput";
+            rowType = "nitrogen";
             break;
         default:
             return;
@@ -575,6 +578,9 @@ const SortTable = (table, sort_index, currentElement) =>{
             break;
         case "nitrogen":
             currentTable = document.getElementsByClassName('nitrogen-table-body')[0];
+            break;
+        case "nitrogen-date":
+            currentTable = document.getElementsByClassName('nitrogen-date-table-body')[0];
             break;
         default:
             return;
