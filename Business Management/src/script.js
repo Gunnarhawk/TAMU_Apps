@@ -629,21 +629,44 @@ const SortTable = (table, sort_index, currentElement) =>{
 
 const Merge = (left_arr, right_arr) =>{
     let arr = [];
-    while(left_arr.length && right_arr.length){
-        if(left_arr[0].getElementsByTagName("td")[sortIndex].innerText < right_arr[0].getElementsByTagName("td")[sortIndex].innerText){
-            arr.push(left_arr.shift());
+    while (left_arr.length && right_arr.length) {
+        let variable1 = left_arr[0].getElementsByTagName("td")[sortIndex].innerText;
+        let variable2 = right_arr[0].getElementsByTagName("td")[sortIndex].innerText;
+        if(isNaN(variable1) && isNaN(variable2)){
+            let len = (variable1.length <= variable2.length ? variable1.length : variable2.length);
+            for(let i = 0; i < len; i++){
+                if (variable1[i] < variable2[i]) {
+                    arr.push(left_arr.shift());
+                    break;
+                } else if(variable1[i] > variable2[i]){
+                    arr.push(right_arr.shift());
+                    break;
+                } else if(variable1[i] == variable2[i]){
+                    if(i == len-1){
+                        arr.push(right_arr.shift());
+                        break;
+                    } else {
+                        continue;
+                    }
+                }
+            }
         } else {
-            arr.push(right_arr.shift());
+            variable1 = Number(variable1);
+            variable2 = Number(variable2);
+            if(variable1 < variable2){
+                arr.push(left_arr.shift());
+            } else {
+                arr.push(right_arr.shift());
+            }
         }
+        
     }
     return [...arr, ...left_arr, ...right_arr];
 }
 
 const MergeSort = (array) =>{
-    console.log(5);
     const half = array.length / 2;
     if(array.length < 2){
-        console.log(1);
         return array;
     }
     const left = array.splice(0, half);
