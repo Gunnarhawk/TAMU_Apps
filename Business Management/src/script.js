@@ -4,6 +4,8 @@ var deleteModeActive = false;
 var editModeActive = false;
 var currentPageStr = "";
 var currentSortIndex = 0;
+var sortIndex = 0;
+var sorted = false;
 
 const UpdateCurrentPage = (page) =>{
     // Set the current page for other functions
@@ -559,6 +561,13 @@ const SortTable = (table, sort_index, currentElement) =>{
     let x,y; // two compared elements, will be set while compairing
     let i; // indexer whose scope must be exterior the loop
 
+    if(sorted == true){
+        wishdir = "up";
+        sorted = false;
+    } else {
+        sorted = true;
+    }
+
     currentSortIndex = sort_index;
 
     // Check if it is the body call
@@ -593,46 +602,52 @@ const SortTable = (table, sort_index, currentElement) =>{
         }
     }
     currentElement.style.color = "rgb(0, 123, 255)";
+    rows = currentTable.rows;
 
-    // Loop until no switching needs to be done
-    while (switching){
-        // the loop goes through a cycle, but will not again
-        switching = false;
-        rows = currentTable.rows;
+    sortIndex = sort_index;
 
-        // loop through all table rows
-        for(i = 0; i < (rows.length-1); i++){
-            shouldSwitch = false;
-            // get compare elements
-            x = rows[i].getElementsByTagName("td")[sort_index];
-            y = rows[i + 1].getElementsByTagName("td")[sort_index];
+    // convert the collection into an array and sort it
+    const init_array = [...rows];
+    const result = MergeSort(init_array);
 
-            // check if the rows should switch based on wishdir
-            if(wishdir == "down"){
-                if(x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()){
-                    shouldSwitch = true;
-                    break;
-                }
-            } else if(wishdir == "up"){
-                if(x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()){
-                    shouldSwitch = true;
-                    break;
-                }
-            }
+    // Remove and then add the rows back in
+    for(let z = 0; z < rows.length; z++){
+        currentTable.removeChild(rows[z]);
+    }
+
+    if(wishdir == "down"){
+        for(let c = 0; c < result.length; c++){
+            currentTable.appendChild(result[c]);
         }
-        
-        // check if it should switch the elements, or the wishdir
-        if(shouldSwitch){
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            switchcount++;
-        } else {
-            if(switchcount == 0 && wishdir == "down"){
-                wishdir = "up";
-                switching = true;
-            }
+    } else if(wishdir == "up"){
+        result.reverse();
+        for(let c = 0; c < result.length; c++){
+            currentTable.appendChild(result[c]);
         }
     }
+}
+
+const Merge = (left_arr, right_arr) =>{
+    let arr = [];
+    while(left_arr.length && right_arr.length){
+        if(left_arr[0].getElementsByTagName("td")[sortIndex].innerText < right_arr[0].getElementsByTagName("td")[sortIndex].innerText){
+            arr.push(left_arr.shift());
+        } else {
+            arr.push(right_arr.shift());
+        }
+    }
+    return [...arr, ...left_arr, ...right_arr];
+}
+
+const MergeSort = (array) =>{
+    console.log(5);
+    const half = array.length / 2;
+    if(array.length < 2){
+        console.log(1);
+        return array;
+    }
+    const left = array.splice(0, half);
+    return Merge(MergeSort(left), MergeSort(array));
 }
 
 const TableSearch = (db) =>{
