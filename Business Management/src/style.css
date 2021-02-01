@@ -39,14 +39,22 @@ tr:hover{
     background-color: rgb(245, 245, 245);
 }
 
-.phone-nav li{
+.main-content{
+    padding-bottom: 5%;
+}
+
+.phone-nav li, .key-access-nav li{
     border: 1px solid white;
     background-color: white;
     border-radius: 50px;
     margin-left: 1%;
 }
 
-.phone-nav li:hover{
+.key-access-nav li{
+    display: inline;
+}
+
+.phone-nav li:hover, .key-access-nav li:hover{
     border-color: #007bff;
 }
 
@@ -65,8 +73,7 @@ tr:hover{
 }
 
 .card:hover{
-    background-color: rgb(236, 236, 236);
-    border-color: blue;
+    background-color: rgb(247, 247, 247);
     transition: all .3s;
 }
 
@@ -76,4 +83,8 @@ tr:hover{
 
 .main-title{
     padding: 5% 0;
+}
+
+.c{
+    background-color: green;
 }

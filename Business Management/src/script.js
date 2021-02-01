@@ -1,5 +1,4 @@
 var phoneDBElements = 0;
-var deleteModeActive = false;
 var editModeActive = false;
 var currentPageStr = "";
 var currentSortIndex = 0;
@@ -26,7 +25,7 @@ const ToggleEditMode = (wishstate) =>{
 
 function TableElement_OnClick(){
     // Return if window or if delete mode is active
-    if(this != window && deleteModeActive == false){
+    if(this != window){
         let currentTable;
         let innerTextArray;
 
@@ -51,22 +50,24 @@ function TableElement_OnClick(){
                         this.style.backgroundColor = "transparent";
                     }
                 });
-
-                // Remove form data / restore to defaults
-                for(let i = 1; i <= 12; i++){
-                    // 8 is the index for the radio
-                    if(i == 8){
-                        var yes = document.getElementsByClassName('radio-yes')[0];
-                        var no = document.getElementsByClassName('radio-no')[0];
-                        yes.checked = false;
-                        no.checked = true;
-                    } else {
-                        // Every other index, put content in text box
-                        let formInput = `phoneInput${i}`;
-                        let inputID = document.getElementById(formInput);
-                        inputID.value = "";
+                if(currentPageStr == "phone"){
+                    // Remove form data / restore to defaults
+                    for(let i = 1; i <= 12; i++){
+                        // 8 is the index for the radio
+                        if(i == 8){
+                            var yes = document.getElementsByClassName('radio-yes')[0];
+                            var no = document.getElementsByClassName('radio-no')[0];
+                            yes.checked = false;
+                            no.checked = true;
+                        } else {
+                            // Every other index, put content in text box
+                            let formInput = `phoneInput${i}`;
+                            let inputID = document.getElementById(formInput);
+                            inputID.value = "";
+                        }
                     }
                 }
+                
                 return;
             } else {
                 // First Click
@@ -253,7 +254,7 @@ const FillTable = () =>{
 }
 
 function NitrogenDateTable_OnClick(){
-    if(this != window && deleteModeActive == false){
+    if(this != window){
         const currentTable = document.getElementsByClassName('nitrogen-date-table-body')[0];
         
         const UpdateElement = () =>{
@@ -388,6 +389,9 @@ const SaveEditedFormData = (table) =>{
             inputType = "keyInput";
             break;
         case "nitrogen":
+            currentTable = document.getElementsByClassName('nitrogen-table-body')[0];
+            inputType = "nitrogenInput";
+            break;
         default:
             return;
     }
@@ -676,42 +680,177 @@ const TableSearch = (db) =>{
   }
 }
 
-var deleteMode = false;
-
-const DeleteButton = (db) =>{
+const DeleteButton = () =>{
     // See which table is active
-    var _table;
-    switch(db){
-        case 1:
-            _table = document.getElementsByClassName('phone-table-body')[0];
-            break;
-        case 2:
-            _table = document.getElementsByClassName('key-table-body')[0];
-            break;
-        case 3:
-            _table = document.getElementsByClassName('nitrogen-table-body')[0];
-            break;
+    var _table = document.getElementsByClassName(`${currentPageStr}-table-body`)[0];
+    
+    for(let i = 0; i < _table.childElementCount; i++){
+        console.log(1);
+        if(_table.children[i].classList.contains('tr-active')){
+            console.log(5);
+            // Delete Element
+            let result = confirm("Do you want to delete this item, it will be gone forever!");
+            if(result == true){
+                _table.children[i].style.display = "none";
+            }
+        }
     }
+}
 
-    // Toggle 'delete mode'
-    if(deleteMode == true){
-        deleteMode = false;
-    } else {
-        deleteMode = true;
-    }
+function KeyAccessTableRow_OnClick(elem){
+    const currentTable = document.getElementsByClassName('key-access-table-body')[0];
 
-    deleteModeActive = deleteMode;
+    const UpdateElement = () =>{
+        // EDIT MODE
+        if(elem.classList.contains('tr-active')){
+            // Second Click
+            elem.classList.remove('tr-active');
 
-    // If an elemtn in the table is clicked, it will ask the user if they wish to delete it. If yes, delete element
-    for(let i = 0; i < phoneDBElements; i++){
-        _table.children[i].addEventListener('click', function(){
-            if(deleteMode == true){
-                var result = confirm("Do you really want to delete this element? It will be gone forever.");
-                if(result == true){
-                    // Delete Element
-                    _table.children[i].style.display = "none";
+            // Update Background Color
+            let selectedBackgroundColor = "rgb(108, 117, 125)";
+            elem.style.backgroundColor = "transparent";
+            elem.addEventListener('mouseover', function(){
+                if(elem.style.backgroundColor != selectedBackgroundColor){
+                    elem.style.backgroundColor ="#e4e4e4";
+                }
+            });
+            elem.addEventListener('mouseout', function(){
+                if(elem.style.backgroundColor != selectedBackgroundColor){
+                    elem.style.backgroundColor = "transparent";
+                }
+            });
+            
+            return;
+        } else {
+            // First Click
+            // Add active class
+            for(let c = 0; c < currentTable.childElementCount; c++){
+                if(currentTable.children[c].classList.contains('tr-active')){
+                    currentTable.children[c].classList.remove('tr-active');
                 }
             }
-        });
+            elem.classList.add('tr-active');
+        }
+        
+        // Update Background Color
+        let selectedBackgroundColor = "rgb(108, 117, 125)";
+        for(j = 0; j < currentTable.childElementCount; j++){
+            if(currentTable.children[j].style.backgroundColor == selectedBackgroundColor){
+                currentTable.children[j].style.backgroundColor = "transparent";
+                currentTable.children[j].addEventListener('mouseover', function(){
+                    if(elem.style.backgroundColor != selectedBackgroundColor){
+                        elem.style.backgroundColor ="#e4e4e4";
+                    }
+                });
+                currentTable.children[j].addEventListener('mouseout', function(){
+                    if(elem.style.backgroundColor != selectedBackgroundColor){
+                        elem.style.backgroundColor = "transparent";
+                    }
+                });
+            }
+        }
+        elem.style.backgroundColor = selectedBackgroundColor;
     }
+
+    UpdateElement();
+}
+
+function KeyAccessTableRowJS_OnClick(){
+    const currentTable = document.getElementsByClassName('key-access-table-body')[0];
+
+    const UpdateElement = () =>{
+        // EDIT MODE
+        if(this.classList.contains('tr-active')){
+            // Second Click
+            this.classList.remove('tr-active');
+
+            // Update Background Color
+            let selectedBackgroundColor = "rgb(108, 117, 125)";
+            this.style.backgroundColor = "transparent";
+            this.addEventListener('mouseover', function(){
+                if(this.style.backgroundColor != selectedBackgroundColor){
+                    this.style.backgroundColor ="#e4e4e4";
+                }
+            });
+            this.addEventListener('mouseout', function(){
+                if(this.style.backgroundColor != selectedBackgroundColor){
+                    this.style.backgroundColor = "transparent";
+                }
+            });
+            
+            return;
+        } else {
+            // First Click
+            // Add active class
+            for(let c = 0; c < currentTable.childElementCount; c++){
+                if(currentTable.children[c].classList.contains('tr-active')){
+                    currentTable.children[c].classList.remove('tr-active');
+                }
+            }
+            this.classList.add('tr-active');
+        }
+        
+        // Update Background Color
+        let selectedBackgroundColor = "rgb(108, 117, 125)";
+        for(j = 0; j < currentTable.childElementCount; j++){
+            if(currentTable.children[j].style.backgroundColor == selectedBackgroundColor){
+                currentTable.children[j].style.backgroundColor = "transparent";
+                currentTable.children[j].addEventListener('mouseover', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor ="#e4e4e4";
+                    }
+                });
+                currentTable.children[j].addEventListener('mouseout', function(){
+                    if(this.style.backgroundColor != selectedBackgroundColor){
+                        this.style.backgroundColor = "transparent";
+                    }
+                });
+            }
+        }
+        this.style.backgroundColor = selectedBackgroundColor;
+    }
+
+    UpdateElement();
+}
+
+const AccessDeleteButton = () =>{
+    const currentTable = document.getElementsByClassName('key-access-table-body')[0];
+    for(let i = 0; i < currentTable.childElementCount; i++){
+        if(currentTable.children[i].classList.contains('tr-active')){
+            // Delete Element
+            let result = confirm("Do you want to delete this item, it will be gone forever!");
+            if(result == true){
+                currentTable.children[i].style.display = "none";
+            }
+        }
+    }
+}
+
+const AccessAddElement = () =>{
+    const currentTable = document.getElementsByClassName('key-access-table-body')[0];
+    const inputType = "keyAccessInput";
+    let inputArr = new Array();
+    for(let i = 1; i <= 2; i++){
+        let elem = document.getElementById(`keyAccessInput${i}`);
+        inputArr.push(elem.value);
+    }
+
+    var row = document.createElement('tr');
+    for(let i = 0; i < inputArr.length; i++){
+        var cell = document.createElement('td');
+        if(i == 0){
+            // first element
+            cell.style.fontWeight = 'bold';
+        } 
+
+        var cellText = document.createTextNode(inputArr[i].toString());
+
+        cell.appendChild(cellText);
+        row.appendChild(cell);
+
+        row.addEventListener('click', KeyAccessTableRowJS_OnClick);
+    }
+
+    // Add element to table
+    currentTable.insertBefore(row, currentTable.children[0]);
 }
