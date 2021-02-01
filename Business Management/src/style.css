@@ -35,7 +35,7 @@ tr:hover{
     background-color: white;
 }
 
-.tab-content{
+.tab-content, .main-content{
     background-color: rgb(245, 245, 245);
 }
 
@@ -52,4 +52,28 @@ tr:hover{
 
 .possible-delete{
     background-color: #f8d7da;
+}
+
+.db-selection-btn{
+    color: #333;
+    text-decoration: none;
+}
+
+.db-selection-btn:hover{
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.card:hover{
+    background-color: rgb(236, 236, 236);
+    border-color: blue;
+    transition: all .3s;
+}
+
+.card{
+    transition: all .3s;
+}
+
+.main-title{
+    padding: 5% 0;
 }

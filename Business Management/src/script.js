@@ -1,31 +1,10 @@
 var phoneDBElements = 0;
-var currentPage = 1;
 var deleteModeActive = false;
 var editModeActive = false;
 var currentPageStr = "";
 var currentSortIndex = 0;
 var sortIndex = 0;
 var sorted = false;
-
-const UpdateCurrentPage = (page) =>{
-    // Set the current page for other functions
-    currentPage = page;
-    currentSortIndex = 0;
-    switch(currentPage){
-        case 1:
-            currentPageStr = 'phone';
-            break;
-        case 2:
-            currentPageStr = 'key';
-            break;
-        case 3:
-            currentPageStr = 'nitrogen';
-            break;
-        default:
-            console.log("Error | UpdateCurrentPage function cannot find page");
-            return;
-    }
-}
 
 const ToggleEditMode = (wishstate) =>{
     let editModeSelection = document.getElementById(`${currentPageStr}-collapse4`);
@@ -124,8 +103,8 @@ function TableElement_OnClick(){
             this.style.backgroundColor = selectedBackgroundColor;
         }
 
-        switch (currentPage){
-            case 1:
+        switch (currentPageStr){
+            case "phone":
                 // Phones
                 currentTable = document.getElementsByClassName('phone-table-body')[0];
 
@@ -155,7 +134,7 @@ function TableElement_OnClick(){
                     
                 }
                 break;
-            case 2:
+            case "key":
                 // Keys
                 currentTable = document.getElementsByClassName('key-table-body')[0];
 
@@ -169,7 +148,7 @@ function TableElement_OnClick(){
                     inputID.value = innerTextArray[i-1].toString();
                 }
                 break;
-            case 3:
+            case "nitrogen":
                 // Nitrogen
                 currentTable = document.getElementsByClassName('nitrogen-table-body')[0];
 
@@ -177,7 +156,7 @@ function TableElement_OnClick(){
 
                 // Update Forms
                 innerTextArray = this.innerText.split('\t');
-                for(let i = 1; i <= 9; i++){
+                for(let i = 1; i <= 7; i++){
                     let formInput = `nitrogenInput${i}`;
                     let inputID = document.getElementById(formInput);
                     inputID.value = innerTextArray[i-1].toString();
@@ -194,81 +173,83 @@ const FillTable = () =>{
     // This is a temp function, will be removed when tables can be added via DB query
     let numElements = 100;
     phoneDBElements = numElements;
-    for(let j = 0; j < numElements; j++){
-        var row = document.createElement('tr');
-        let phoneNumStart = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
-        let phoneNumEnd = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
-        let phoneNum = phoneNumStart +'-'+ phoneNumEnd;
-        for(let i = 0; i < 12; i++){
-            var cell = document.createElement('td');
-            if(i == 0){
-                // first element
-                cell.style.fontWeight = 'bold';
-                var cellText = document.createTextNode(phoneNum.toString());
-            } else {
-                var cellText = document.createTextNode('NA');
+    if(document.getElementsByClassName('phone-table-body')[0] != null){
+        for(let j = 0; j < numElements; j++){
+            var row = document.createElement('tr');
+            let phoneNumStart = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
+            let phoneNumEnd = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
+            let phoneNum = phoneNumStart +'-'+ phoneNumEnd;
+            for(let i = 0; i < 12; i++){
+                var cell = document.createElement('td');
+                if(i == 0){
+                    // first element
+                    cell.style.fontWeight = 'bold';
+                    var cellText = document.createTextNode(phoneNum.toString());
+                } else {
+                    var cellText = document.createTextNode('NA');
+                }
+                if(i == 7){
+                    // y/n element
+                    let randNum = Math.floor((Math.random() * 2) + 1);
+                    var cellText = (randNum == 1) ? document.createTextNode('Yes') : document.createTextNode('No');
+                }
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                row.classList.add('phone-row');
+    
+                row.addEventListener('click', TableElement_OnClick);
             }
-            if(i == 7){
-                // y/n element
-                let randNum = Math.floor((Math.random() * 2) + 1);
-                var cellText = (randNum == 1) ? document.createTextNode('Yes') : document.createTextNode('No');
-            }
-            cell.appendChild(cellText);
-            row.appendChild(cell);
-            row.classList.add('phone-row');
-
-            row.addEventListener('click', TableElement_OnClick);
+            document.getElementsByClassName('phone-table-body')[0].appendChild(row);
         }
-        document.getElementsByClassName('phone-table-body')[0].appendChild(row);
-    }
-
-    document.getElementsByClassName('phone-directory-name')[0].innerHTML = `Phone Database (${numElements} results)`;
-
-    for(let j = 0; j < numElements; j++){
-        var row = document.createElement('tr');
-        let keyNum = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
-        for(let i = 0; i < 9; i++){
-            var cell = document.createElement('td');
-            if(i == 0){
-                // first element
-                cell.style.fontWeight = 'bold';
-                var cellText = document.createTextNode(keyNum.toString());
-            } else {
-                var cellText = document.createTextNode('NA');
+    
+        document.getElementsByClassName('phone-directory-name')[0].innerHTML = `Phone Table (${numElements} results)`;
+    } else if(document.getElementsByClassName('key-table-body')[0] != null){
+        for(let j = 0; j < numElements; j++){
+            var row = document.createElement('tr');
+            let keyNum = Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString() + Math.floor((Math.random() * 9) + 0).toString();
+            for(let i = 0; i < 9; i++){
+                var cell = document.createElement('td');
+                if(i == 0){
+                    // first element
+                    cell.style.fontWeight = 'bold';
+                    var cellText = document.createTextNode(keyNum.toString());
+                } else {
+                    var cellText = document.createTextNode('NA');
+                }
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                row.classList.add('key-row');
+    
+                row.addEventListener('click', TableElement_OnClick);
             }
-            cell.appendChild(cellText);
-            row.appendChild(cell);
-            row.classList.add('key-row');
-
-            row.addEventListener('click', TableElement_OnClick);
+            document.getElementsByClassName('key-table-body')[0].appendChild(row);
         }
-        document.getElementsByClassName('key-table-body')[0].appendChild(row);
-    }
-
-    document.getElementsByClassName('key-directory-name')[0].innerHTML = `Key Database (${numElements} results)`;
-
-    for(let j = 0; j < numElements; j++){
-        var row = document.createElement('tr');
-        let roomNum =  Math.floor((Math.random() * 9) + 1).toString() + Math.floor((Math.random() * 9) + 1).toString() + Math.floor((Math.random() * 9) + 1).toString();
-        for(let i = 0; i < 7; i++){
-            var cell = document.createElement('td');
-            if(i == 0){
-                // first element
-                cell.style.fontWeight = 'bold';
-                var cellText = document.createTextNode(roomNum.toString());
-            } else {
-                var cellText = document.createTextNode('NA');
+    
+        document.getElementsByClassName('key-directory-name')[0].innerHTML = `Key Table (${numElements} results)`;
+    } else if(document.getElementsByClassName('nitrogen-table-body')[0] != null){
+        for(let j = 0; j < numElements; j++){
+            var row = document.createElement('tr');
+            let roomNum =  Math.floor((Math.random() * 9) + 1).toString() + Math.floor((Math.random() * 9) + 1).toString() + Math.floor((Math.random() * 9) + 1).toString();
+            for(let i = 0; i < 7; i++){
+                var cell = document.createElement('td');
+                if(i == 0){
+                    // first element
+                    cell.style.fontWeight = 'bold';
+                    var cellText = document.createTextNode(roomNum.toString());
+                } else {
+                    var cellText = document.createTextNode('NA');
+                }
+                cell.appendChild(cellText);
+                row.appendChild(cell);
+                row.classList.add('nitrogen-row');
+    
+                row.addEventListener('click', TableElement_OnClick);
             }
-            cell.appendChild(cellText);
-            row.appendChild(cell);
-            row.classList.add('nitrogen-row');
-
-            row.addEventListener('click', TableElement_OnClick);
+            document.getElementsByClassName('nitrogen-table-body')[0].appendChild(row);
         }
-        document.getElementsByClassName('nitrogen-table-body')[0].appendChild(row);
+    
+        document.getElementsByClassName('nitrogen-directory-name')[0].innerHTML = `Nitrogen Table (${numElements} results)`;
     }
-
-    document.getElementsByClassName('nitrogen-directory-name')[0].innerHTML = `Nitrogen Database (${numElements} results)`;
 }
 
 function NitrogenDateTable_OnClick(){

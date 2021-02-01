@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Phones Database</title>
+
+    <link  rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+
+    <!--BOOTSTRAP-->
+    <link rel="stylesheet" href="../dependencies/node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="../dependencies/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  </head>
+  <body onload="FillTable(); SortTable('phone', 0, null); currentPageStr='phone';">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="#">Business Management</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="row">
+      <div class="col col-sm-10 offset-sm-1">
+        <br>
+        <h2 class="text-center display-1">Phones Database</h2>
+        <br>
+      </div>
+    </div>
+    <div class="main-content">
+      <br>
+      <div class="row">
+        <div class="col col-sm-10 offset-sm-1">
+          <ul class="nav phone-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="#collapse1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Add</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Clear</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton(1);">Delete</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#collapse3" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Search</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Refresh</a>
+            </li>
+          </ul>
+          <br>
+          <div class="collapse" id="collapse1">
+            <div class="card card-body">
+              <h4>To add data to the table, fill out the forms below, then click the submit button.</h4>
+              <div class="row">
+                <div class="col-4">
+                  <button type="submit" class="btn btn-primary" onclick="AddTableElement('phone');">Submit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="collapse" id="collapse3">
+            <div class="card card-body">
+              <h4>Search for a Phone Number</h4>
+              <input type="text" class="form-control" id="myInput1" onkeyup="TableSearch(1);" placeholder="Search..">
+            </div>
+          </div>
+          <div class="collapse" id="collapse2">
+            <div class="card card-body bg-danger">
+              <h4>Delete mode is now active, click on an element to delete it. To deactivate, click the 'Delete' button again.</h4>
+            </div>
+          </div>
+          <div class="collapse" id="phone-collapse4">
+            <div class="card card-body bg-info">
+              <h4>Edit Mode is now active, to save your edits, click the save button. To deactivate, click the highlighted row again.</h4>
+              <div class="row">
+                <div class="col-4">
+                  <button type="submit" class="btn btn-primary" onclick="SaveEditedFormData('phone');">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-sm-10 offset-sm-1">
+          <br>
+          <h3 class="phone-directory-name">Phone Table</h3>
+          <div class="table-responsive table-sticky">
+            <table class="table table-hover phone-table" id="searchable1">
+              <thead>
+                <tr>
+                  <th scope="col" onclick="SortTable('phone', 0, this);" class="hoverable-th">#</th>
+                  <th scope="col" onclick="SortTable('phone', 1, this);" class="hoverable-th">Advisor</th>
+                  <th scope="col" onclick="SortTable('phone', 2, this);" class="hoverable-th">Room</th>
+                  <th scope="col" onclick="SortTable('phone', 3, this);" class="hoverable-th">Usage</th>
+                  <th scope="col" onclick="SortTable('phone', 4, this);" class="hoverable-th">Comments</th>
+                  <th scope="col" onclick="SortTable('phone', 5, this);" class="hoverable-th">Extn Rooms</th>
+                  <th scope="col" onclick="SortTable('phone', 6, this);" class="hoverable-th">Equipment</th>
+                  <th scope="col" onclick="SortTable('phone', 7, this);" class="hoverable-th">Disconnect</th>
+                  <th scope="col" onclick="SortTable('phone', 8, this);" class="hoverable-th">Date Disc</th>
+                  <th scope="col" onclick="SortTable('phone', 9, this);" class="hoverable-th">Notes</th>
+                  <th scope="col" onclick="SortTable('phone', 10, this);" class="hoverable-th">Date Installed</th>
+                  <th scope="col" onclick="SortTable('phone', 11, this);" class="hoverable-th">Account</th>
+                </tr>
+              </thead>
+              <tbody class="phone-table-body">
+                <!--Filled by JS-->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col col-sm-10 offset-sm-1">
+          <div class="row">
+            <div class="col-3">
+              <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">Basic Properties</a>
+                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">Phone Options</a>
+                <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">Phone Costs</a>
+              </div>
+            </div>
+            <div class="col-9">
+              <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                  <form>
+                    <div class="form-row">
+                      <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
+                        <label>Phone Number</label>
+                        <input type="text" class="form-control" id="phoneInput1" placeholder="000-0000" >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Advisor</label>
+                        <input type="text" class="form-control" id="phoneInput2" placeholder="" >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Room #</label>
+                        <input type="text" class="form-control" id="phoneInput3" placeholder="243" >
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                      <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
+                        <label>Usage</label>
+                        <input type="text" class="form-control" id="phoneInput4" placeholder="" >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Comments</label>
+                        <input type="text" class="form-control" id="phoneInput5" placeholder="..." >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Extension Rooms</label>
+                        <input type="text" class="form-control" id="phoneInput6" placeholder="244" >
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                      <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
+                        <label>Equipment</label>
+                        <input type="text" class="form-control" id="phoneInput7" placeholder="" >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Disconnected</label>
+                        <div class="form-check">
+                          <input class="form-check-input radio-yes" type="radio" name="phoneInput8" id="phoneInput8" value="option1">
+                          <label class="form-check-label" for="exampleRadios1">
+                            Yes
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input radio-no" type="radio" name="phoneInput8" id="phoneInput8" value="option2" checked>
+                          <label class="form-check-label" for="exampleRadios2">
+                            No
+                          </label>
+                        </div>
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Date Disconnected</label>
+                        <input type="text" class="form-control" id="phoneInput9" placeholder="(dd/mm/yyyy)" >
+                      </div>
+                    </div>
+                    <br>
+                    <div class="form-row">
+                      <div class="col col-lg-3 col-md-12 offset-lg-1 col-12 ">
+                        <label>Notes</label>
+                        <input type="text" class="form-control" id="phoneInput10" placeholder="..." >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Date Installed</label>
+                        <input type="text" class="form-control" id="phoneInput11" placeholder="(dd/mm/yyyy)" >
+                      </div>
+                      <div class="col col-lg-3 col-md-12 col-12 ">
+                        <label>Account</label>
+                        <input type="text" class="form-control" id="phoneInput12" placeholder="" >
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                  <div class="row">
+                    <div class="col col-sm-6 col-12 ">
+                      <h3>Phone Options</h3>
+                      <h4><small class="text-muted">check all that apply</small></h4>
+                      <div class="row">
+                        <div class="col col-sm-12 col-12 ">
+                          <form>
+                            <div class="form-row">
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption1">
+                                  <label class="custom-control-label" for="phoneOption1">Basic Phone</label>
+                                </div>
+                              </div>
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption2">
+                                  <label class="custom-control-label" for="phoneOption2">Voicemail</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption3">
+                                  <label class="custom-control-label" for="phoneOption3">SYS/WATS</label>
+                                </div>
+                              </div>
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption4">
+                                  <label class="custom-control-label" for="phoneOption4">Equipment</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption5">
+                                  <label class="custom-control-label" for="phoneOption5">Direct Dial</label>
+                                </div>
+                              </div>
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption6">
+                                  <label class="custom-control-label" for="phoneOption6">1-800 Number</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-row">
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption7">
+                                  <label class="custom-control-label" for="phoneOption7">Local Only</label>
+                                </div>
+                              </div>
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption8">
+                                  <label class="custom-control-label" for="phoneOption8">DSL</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-row justify-content-center">
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption9">
+                                  <label class="custom-control-label" for="phoneOption9">Local Operator</label>
+                                </div>
+                              </div>
+                              <div class="col col-lg-6 col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption10">
+                                  <label class="custom-control-label" for="phoneOption10">Credit Card</label>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-row justify-content-center">
+                              <div class="col col-sm-12">
+                                <div class="custom-control custom-checkbox">
+                                  <input type="checkbox" class="custom-control-input" id="phoneOption11">
+                                  <label class="custom-control-label" for="phoneOption11">Fax Line</label>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col col-sm-6">
+                      <h3>Other</h3>
+                      <form>
+                        <div class="form-row">
+                          <label>Type of Equipment</label>
+                          <input type="text" class="form-control" placeholder="VOIP">
+                        </div>
+                        <div class="form-row">
+                          <label>Charge Direcly to Account</label>
+                          <input type="text" class="form-control" placeholder="271960-00000">
+                        </div>
+                        <div class="form-row">
+                          <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="phoneInvoiceOption">
+                            <label class="custom-control-label" for="phoneInvoiceOption">Print Phone Invoice</label>
+                          </div>
+                        </div>
+                        <div class="form-row">
+                          <fieldset class="row">
+                            <legend class="col-form-label offset-sm-1">Cost Distribution</legend>
+                            <div class="col-sm-10">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
+                                <label class="form-check-label" for="gridRadios1">
+                                  Dept Cost
+                                </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
+                                <label class="form-check-label" for="gridRadios2">
+                                  User Cost
+                                </label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3">
+                                <label class="form-check-label" for="gridRadios3">
+                                  Split Cost
+                                </label>
+                              </div>
+                            </div>
+                          </fieldset>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <h3>Phone Cost Options</h3>
+                      <div class="table-responsive table-sticky-small">
+                        <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">Description</th>
+                              <th scope="col">Cost</th>
+                              <th scope="col">Contribute</th>
+                              <th scope="col">Qty</th>
+                              <th scope="col">Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td scope="row">NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                            </tr>
+                            <tr>
+                              <td scope="row">NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                            </tr>
+                            <tr>
+                              <td scope="row">NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                            </tr>
+                            <tr>
+                              <td scope="row">NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                              <td>NA</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
