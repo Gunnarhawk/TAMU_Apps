@@ -683,17 +683,73 @@ const TableSearch = (db) =>{
 const DeleteButton = () =>{
     // See which table is active
     var _table = document.getElementsByClassName(`${currentPageStr}-table-body`)[0];
-    
     for(let i = 0; i < _table.childElementCount; i++){
-        console.log(1);
         if(_table.children[i].classList.contains('tr-active')){
-            console.log(5);
             // Delete Element
             let result = confirm("Do you want to delete this item, it will be gone forever!");
             if(result == true){
+                // Dissable Edit Mode
+                ToggleEditMode('dissable');
+
                 _table.children[i].style.display = "none";
+                _table.removeChild(_table.children[i]);
             }
         }
+    }
+}
+
+const ClearInputButton = () =>{
+    // Get the inputs
+    let inputType = currentPageStr+"Input";
+    let numInputs;
+
+    switch(currentPageStr){
+        case "phone":
+            // Basic Properties Clear
+            numInputs = 12;
+            for(let i = 1; i <= numInputs; i++){
+                // 8 is the index for the radio
+                if(i == 8){
+                    var yes = document.getElementsByClassName('radio-yes')[0];
+                    var no = document.getElementsByClassName('radio-no')[0];
+                    yes.checked = false;
+                    no.checked = true;
+                } else {
+                    // Every other index, put content in text box
+                    let formInput = inputType+i;
+                    let inputID = document.getElementById(formInput);
+                    inputID.value = "";
+                }
+            }
+
+            // Phone Options Clear
+            numInputs = 11;
+            for(let i = 1; i <= numInputs; i++){
+                let item = document.getElementById("phoneOption"+i);
+                item.checked = false;
+            }
+
+            numInputs = 3;
+            for(let i = 1; i <= numInputs; i++){
+                let item = document.getElementById("phoneOptionsOther"+i);
+                if(i == 3){
+                    item.checked = false;
+                } else {
+                    item.value = "";
+                }
+            }
+                
+            break
+        case "key":
+            // Edit Key
+            numInputs = 9;
+            for(let i = 1; i <= numInputs; i++){
+                let item = document.getElementById("keyInput"+i);
+                item.value = "";
+            }
+            break;
+        case "nitrogen":
+            break;
     }
 }
 

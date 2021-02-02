@@ -48,7 +48,7 @@
               <a class="nav-link" href="#collapse1" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">Add</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Clear</a>
+              <a class="nav-link" href="#" onclick="ClearInputButton();">Clear</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#collapse2" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample" onclick="DeleteButton();">Delete</a>
@@ -63,7 +63,7 @@
           <br>
           <div class="collapse" id="collapse1">
             <div class="card card-body">
-              <h4>To add data to the table, fill out the forms below, then click the submit button.</h4>
+              <h4>To add data to the table, fill out the forms below, then click the submit button. Make sure to complete the tabs 'Phone Options' and 'Basic Properties' before submitting.</h4>
               <div class="row">
                 <div class="col-4">
                   <button type="submit" class="btn btn-primary" onclick="AddTableElement('phone');">Submit</button>
@@ -300,16 +300,16 @@
                       <form>
                         <div class="form-row">
                           <label>Type of Equipment</label>
-                          <input type="text" class="form-control" placeholder="VOIP">
+                          <input type="text" class="form-control" placeholder="VOIP" id="phoneOptionsOther1">
                         </div>
                         <div class="form-row">
                           <label>Charge Direcly to Account</label>
-                          <input type="text" class="form-control" placeholder="271960-00000">
+                          <input type="text" class="form-control" placeholder="271960-00000" id="phoneOptionsOther2">
                         </div>
                         <div class="form-row">
                           <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="phoneInvoiceOption">
-                            <label class="custom-control-label" for="phoneInvoiceOption">Print Phone Invoice</label>
+                            <input type="checkbox" class="custom-control-input"  id="phoneOptionsOther3">
+                            <label class="custom-control-label" for="phoneOptionsOther3">Print Phone Invoice</label>
                           </div>
                         </div>
                         <div class="form-row">
