@@ -910,3 +910,15 @@ const AccessAddElement = () =>{
     // Add element to table
     currentTable.insertBefore(row, currentTable.children[0]);
 }
+
+const PhoneRead = () =>{
+    require(['fs'], function(){
+        const path = "~/App_Data/phones.txt";
+
+        
+        fs.readFile(path, 'utf-8', (err, data) => {
+            
+            console.log(data);
+        });
+    });
+}
