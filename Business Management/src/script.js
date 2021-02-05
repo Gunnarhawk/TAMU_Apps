@@ -911,14 +911,22 @@ const AccessAddElement = () =>{
     currentTable.insertBefore(row, currentTable.children[0]);
 }
 
-const PhoneRead = () =>{
-    require(['fs'], function(){
-        const path = "~/App_Data/phones.txt";
+const MakePhoneOBJ = (xmlFile) => {
+    var xmlhttp = new XMLHttpRequest();
+    console.log(5, xmlFile);
+    xmlhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            xmlFunc(this);
+        }
+    };
+    xmlhttp.open("GET", "phones.xml", true);
+    xmlhttp.send();
+}
 
-        
-        fs.readFile(path, 'utf-8', (err, data) => {
-            
-            console.log(data);
-        });
-    });
+const xmlFunc = (xml) => {
+    var xmlDoc = xml.responseXML;
+    var root = xmlDoc.getElementsByTagName("Phone");
+    for (let i = 0; i < root.length; i++) {
+        console.log(root[i].getElementsByTagName("PhoneNumber")[0].childNodes[0].nodeValue);
+    }
 }
