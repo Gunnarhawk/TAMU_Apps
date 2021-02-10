@@ -88,3 +88,22 @@ tr:hover{
 .c{
     background-color: green;
 }
+
+
+
+@media only screen and (max-width: 500px) {
+    .tab-content{
+        margin-left: 5% !important;
+    }
+  }
+
+
+@media only screen and (max-width: 340px) {
+    .display-1{
+        font-size: 70px !important;
+    }
+
+    .tab-content{
+        margin-left: 5% !important;
+    }
+  }
